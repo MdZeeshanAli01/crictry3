@@ -1,0 +1,249 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Celestial Cricket Design System - Cosmic Gradients & Dark Theme
+All colors MUST be HSL for the immersive cricket experience
+*/
+
+@layer base {
+  :root {
+    /* Cosmic Dark Theme - Night Stadium Atmosphere */
+    --background: 225 15% 6%;
+    --foreground: 210 40% 95%;
+
+    /* Glassmorphism Cards */
+    --card: 225 15% 8%;
+    --card-foreground: 210 40% 95%;
+    --glass: 225 15% 10%;
+    --glass-border: 210 100% 70%;
+
+    /* Popover & Modals */
+    --popover: 225 15% 8%;
+    --popover-foreground: 210 40% 95%;
+
+    /* Primary - Electric Cyan */
+    --primary: 191 100% 50%;
+    --primary-foreground: 225 15% 6%;
+    --primary-glow: 191 100% 70%;
+
+    /* Secondary - Cosmic Purple */
+    --secondary: 270 80% 60%;
+    --secondary-foreground: 210 40% 95%;
+    --secondary-glow: 270 80% 80%;
+
+    /* Accent - Neon Green (Cricket Field) */
+    --accent: 120 100% 50%;
+    --accent-foreground: 225 15% 6%;
+    --accent-glow: 120 100% 70%;
+
+    /* Muted - Subtle Blues */
+    --muted: 225 15% 15%;
+    --muted-foreground: 210 20% 65%;
+
+    /* Destructive - Warning Red */
+    --destructive: 0 80% 60%;
+    --destructive-foreground: 210 40% 95%;
+
+    /* Borders & Inputs */
+    --border: 225 15% 20%;
+    --input: 225 15% 12%;
+    --ring: 191 100% 50%;
+
+    /* Aurora Gradients */
+    --gradient-aurora: linear-gradient(135deg, hsl(191, 100%, 50%), hsl(270, 80%, 60%), hsl(120, 100%, 50%));
+    --gradient-cosmic: linear-gradient(180deg, hsl(225, 15%, 6%), hsl(225, 15%, 10%));
+    --gradient-shimmer: linear-gradient(90deg, transparent, hsl(191, 100%, 70%), transparent);
+    
+    /* Light Effects */
+    --glow-primary: 0 0 20px hsl(191, 100%, 50%);
+    --glow-secondary: 0 0 20px hsl(270, 80%, 60%);
+    --glow-accent: 0 0 20px hsl(120, 100%, 50%);
+    
+    /* Stadium Lighting */
+    --stadium-light: 45 100% 85%;
+    --stadium-shadow: 225 15% 3%;
+    
+    /* Wicket & Runs Colors */
+    --wicket: 0 80% 60%;
+    --boundary-4: 45 100% 60%;
+    --boundary-6: 270 80% 70%;
+    --dot-ball: 210 20% 50%;
+
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, sans-serif;
+    overflow-x: hidden;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* Enhanced Glassmorphism Base */
+  .glass-card {
+    @apply backdrop-blur-2xl bg-glass/40 border border-glass-border/30 rounded-xl;
+    box-shadow: 
+      0 8px 32px 0 rgba(31, 38, 135, 0.6),
+      0 4px 16px 0 rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
+      inset 0 -1px 0 0 rgba(255, 255, 255, 0.05);
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(0, 0, 0, 0.1) 100%
+    );
+  }
+
+  /* Aurora Border Animation */
+  .aurora-border {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .aurora-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    background: var(--gradient-aurora);
+    border-radius: inherit;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: xor;
+    animation: aurora-rotate 3s linear infinite;
+  }
+
+  /* Shimmer Text Effect */
+  .shimmer-text {
+    background: var(--gradient-shimmer);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 2s ease-in-out infinite;
+  }
+
+  /* Pulse Glow Effect */
+  .pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite alternate;
+  }
+
+  /* Magnetic Hover Effect */
+  .magnetic-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .magnetic-hover:hover {
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  /* Stadium Atmosphere */
+  .stadium-glow {
+    background: radial-gradient(circle at center, hsl(var(--primary-glow))/10, transparent 70%);
+  }
+
+  /* Score Display Styles */
+  .score-display {
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+
+  /* Live Badge */
+  .live-badge {
+    @apply relative overflow-hidden;
+  }
+
+  .live-badge::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: live-shine 2s infinite;
+  }
+}
+
+@layer utilities {
+  /* Custom Animations */
+  @keyframes aurora-rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  @keyframes pulse-glow {
+    0% { 
+      box-shadow: var(--glow-primary);
+      filter: brightness(1);
+    }
+    100% { 
+      box-shadow: var(--glow-primary), 0 0 40px hsl(var(--primary-glow));
+      filter: brightness(1.1);
+    }
+  }
+
+  @keyframes live-shine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(5deg); }
+  }
+
+  /* Enhanced Gradient Text Utilities */
+  .text-gradient-primary {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px hsl(var(--primary-glow));
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+  }
+
+  .text-gradient-aurora {
+    background: var(--gradient-aurora);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 20px rgba(0, 255, 255, 0.3));
+  }
+
+  /* High Contrast Text */
+  .text-enhanced {
+    text-shadow: 
+      0 0 10px rgba(0, 0, 0, 0.8),
+      0 2px 4px rgba(0, 0, 0, 0.6),
+      0 0 20px hsl(var(--primary-glow));
+    color: hsl(var(--foreground));
+  }
+
+  /* Enhanced Readability */
+  .readable-text {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
