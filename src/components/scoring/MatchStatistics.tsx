@@ -23,23 +23,26 @@ const MatchStatistics: React.FC<MatchStatisticsProps> = ({
   const statistics = useMemo(() => {
     if (!currentInnings || !battingTeam) return null;
 
+    // Safely calculate current run rate with NaN protection
     const currentRunRate = cricketUtils.calculateRunRate(
-      currentInnings.score,
-      currentInnings.overs,
-      currentInnings.balls
+      currentInnings.score || 0,
+      currentInnings.overs || 0,
+      currentInnings.balls || 0
     );
 
-    const ballsRemaining = (match.totalOvers * CRICKET_CONSTANTS.BALLS_PER_OVER) - 
-                          (currentInnings.overs * CRICKET_CONSTANTS.BALLS_PER_OVER + currentInnings.balls);
+    const ballsRemaining = Math.max(0, (match.totalOvers * CRICKET_CONSTANTS.BALLS_PER_OVER) - 
+                          ((currentInnings.overs || 0) * CRICKET_CONSTANTS.BALLS_PER_OVER + (currentInnings.balls || 0)));
 
+    // Protect against NaN in projected score calculation
     const projectedScore = match.currentInnings === 1 
-      ? Math.round(currentRunRate * match.totalOvers)
-      : currentInnings.score;
+      ? (isNaN(currentRunRate) || !isFinite(currentRunRate) ? (currentInnings.score || 0) : Math.round(currentRunRate * match.totalOvers))
+      : (currentInnings.score || 0);
 
-    const requiredRunRate = match.currentInnings === 2 && match.innings.first
+    // Safely calculate required run rate with NaN protection
+    const requiredRunRate = match.currentInnings === 2 && match.innings.first && match.innings.first.score !== undefined
       ? cricketUtils.calculateRequiredRunRate(
           match.innings.first.score + 1,
-          currentInnings.score,
+          currentInnings.score || 0,
           Math.floor(ballsRemaining / CRICKET_CONSTANTS.BALLS_PER_OVER),
           ballsRemaining % CRICKET_CONSTANTS.BALLS_PER_OVER
         )
@@ -54,32 +57,44 @@ const MatchStatistics: React.FC<MatchStatisticsProps> = ({
     const isMiddleOvers = currentInnings.overs >= powerplayOvers && currentInnings.overs < (match.totalOvers - 4);
     const isDeathOvers = currentInnings.overs >= (match.totalOvers - 4);
 
-    // Get top performers
-    const topBatsman = battingTeam.playingXI
-      .filter((p: Player) => p.battingStats.ballsFaced > 0)
-      .sort((a: Player, b: Player) => b.battingStats.runs - a.battingStats.runs)[0];
+    // Get top performers with proper null/undefined checks
+    const topBatsman = battingTeam.playingXI && Array.isArray(battingTeam.playingXI)
+      ? battingTeam.playingXI
+          .filter((p: Player) => p && p.battingStats && (p.battingStats.ballsFaced || 0) > 0)
+          .sort((a: Player, b: Player) => (b.battingStats?.runs || 0) - (a.battingStats?.runs || 0))[0]
+      : null;
 
-    const topBowler = bowlingTeam.playingXI
-      .filter((p: Player) => p.bowlingStats.overs > 0 || p.bowlingStats.balls > 0)
-      .sort((a: Player, b: Player) => {
-        // Sort by wickets first, then by economy rate
-        if (b.bowlingStats.wickets !== a.bowlingStats.wickets) {
-          return b.bowlingStats.wickets - a.bowlingStats.wickets;
-        }
-        return a.bowlingStats.economyRate - b.bowlingStats.economyRate;
-      })[0];
+    const topBowler = bowlingTeam && bowlingTeam.playingXI && Array.isArray(bowlingTeam.playingXI)
+      ? bowlingTeam.playingXI
+          .filter((p: Player) => p && p.bowlingStats && ((p.bowlingStats.overs || 0) > 0 || (p.bowlingStats.balls || 0) > 0))
+          .sort((a: Player, b: Player) => {
+            // Sort by wickets first, then by economy rate
+            const aWickets = a.bowlingStats?.wickets || 0;
+            const bWickets = b.bowlingStats?.wickets || 0;
+            if (bWickets !== aWickets) {
+              return bWickets - aWickets;
+            }
+            const aEconomy = a.bowlingStats?.economyRate || 0;
+            const bEconomy = b.bowlingStats?.economyRate || 0;
+            // Handle NaN economy rates
+            if (isNaN(aEconomy) && isNaN(bEconomy)) return 0;
+            if (isNaN(aEconomy)) return 1;
+            if (isNaN(bEconomy)) return -1;
+            return aEconomy - bEconomy;
+          })[0]
+      : null;
 
     return {
-      currentRunRate,
-      ballsRemaining,
-      projectedScore,
-      requiredRunRate,
+      currentRunRate: isNaN(currentRunRate) || !isFinite(currentRunRate) ? 0 : currentRunRate,
+      ballsRemaining: Math.max(0, ballsRemaining),
+      projectedScore: isNaN(projectedScore) ? (currentInnings.score || 0) : projectedScore,
+      requiredRunRate: isNaN(requiredRunRate) || !isFinite(requiredRunRate) ? 0 : requiredRunRate,
       isPowerplay,
       isMiddleOvers,
       isDeathOvers,
       topBatsman,
       topBowler,
-      wicketsRemaining: cricketUtils.getMaxWickets(battingTeam.playingXI?.length || 11) - currentInnings.wickets
+      wicketsRemaining: Math.max(0, cricketUtils.getMaxWickets(battingTeam.playingXI?.length || 11) - (currentInnings.wickets || 0))
     };
   }, [match, currentInnings, battingTeam, bowlingTeam]);
 
@@ -199,10 +214,10 @@ const MatchStatistics: React.FC<MatchStatisticsProps> = ({
               </div>
               <div className="text-right">
                 <div className="text-lg font-semibold text-white">
-                  {statistics.topBatsman.battingStats.runs}*
+                  {statistics.topBatsman.battingStats?.runs || 0}*
                 </div>
                 <div className="text-xs text-slate-400">
-                  ({statistics.topBatsman.battingStats.ballsFaced} balls)
+                  ({statistics.topBatsman.battingStats?.ballsFaced || 0} balls)
                 </div>
               </div>
             </div>
@@ -217,10 +232,10 @@ const MatchStatistics: React.FC<MatchStatisticsProps> = ({
               </div>
               <div className="text-right">
                 <div className="text-lg font-semibold text-white">
-                  {statistics.topBowler.bowlingStats.wickets}/{statistics.topBowler.bowlingStats.runs}
+                  {statistics.topBowler.bowlingStats?.wickets || 0}/{statistics.topBowler.bowlingStats?.runs || 0}
                 </div>
                 <div className="text-xs text-slate-400">
-                  ({cricketUtils.formatOvers(statistics.topBowler.bowlingStats.overs, statistics.topBowler.bowlingStats.balls)} ov)
+                  ({cricketUtils.formatOvers(statistics.topBowler.bowlingStats?.overs || 0, statistics.topBowler.bowlingStats?.balls || 0)} ov)
                 </div>
               </div>
             </div>
