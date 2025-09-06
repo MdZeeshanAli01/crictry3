@@ -447,17 +447,17 @@ function HomeScreen({ onStartMatch, onResumeMatch }: HomeScreenProps) {
   }, []);
 
   return (
-    <div className="text-center py-16 space-y-8">
+    <div className="text-center py-8 sm:py-12 lg:py-16 space-y-6 sm:space-y-8 px-4 sm:px-0">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <h1 className="text-6xl font-bold text-gradient-aurora mb-6">
+        <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-gradient-aurora mb-4 sm:mb-6">
           Professional Cricket
         </h1>
         <div className="readable-text max-w-3xl mx-auto">
-          <p className="text-foreground text-xl font-medium">
+          <p className="text-foreground text-base sm:text-lg lg:text-xl font-medium">
             Experience the ultimate cricket scoring system with comprehensive player management, 
             advanced statistics, and professional-grade match analysis in a cosmic digital arena.
           </p>
