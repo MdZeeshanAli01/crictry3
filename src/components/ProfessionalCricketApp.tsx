@@ -505,9 +505,9 @@ function HomeScreen({ onStartMatch, onResumeMatch }: HomeScreenProps) {
           variant="cosmic"
           size="lg"
           onClick={onStartMatch}
-          className="px-12 py-6 text-xl"
+          className="px-8 sm:px-12 py-4 sm:py-6 text-lg sm:text-xl w-full sm:w-auto max-w-sm sm:max-w-none"
         >
-          <Play className="mr-3 h-6 w-6" />
+          <Play className="mr-2 sm:mr-3 h-5 w-5 sm:h-6 sm:w-6" />
           Start New Match
         </Button>
 
