@@ -6,7 +6,7 @@ import TeamSetup from './TeamSetup';
 import TossSetup from './TossSetup';
 import ProfessionalScoringInterfaceV4 from './ProfessionalScoringInterfaceV4';
 import { Match, Team, Innings } from '@/types/cricket';
-import { ArrowLeft, Play, Users, Coins, Target } from 'lucide-react';
+import { ArrowLeft, Play, Users, Coins, Target, Home } from 'lucide-react';
 import { getDatabaseService } from '@/services/databaseService';
 import { initializeFirebaseDatabase } from '@/config/firebase';
 
@@ -274,33 +274,34 @@ export default function ProfessionalCricketApp() {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative z-10 p-4"
+          className="relative z-10 p-3 sm:p-4"
         >
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             <Button
               variant="ghost"
               onClick={goBack}
-              className="flex items-center space-x-2"
+              className="flex items-center space-x-1 sm:space-x-2 min-h-[44px] text-sm sm:text-base"
             >
               <ArrowLeft className="h-4 w-4" />
-              <span>Back</span>
+              <span className="hidden sm:inline">Back</span>
+              <span className="sm:hidden">←</span>
             </Button>
             
             {/* Progress Indicator */}
-            <div className="flex items-center space-x-2">
-              <div className={`w-3 h-3 rounded-full ${
+            <div className="flex items-center space-x-1 sm:space-x-2">
+              <div className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${
                 ['teamSetup', 'toss', 'preMatch', 'live', 'complete'].includes(appState) 
                   ? 'bg-accent' : 'bg-muted'
               }`} />
-              <div className={`w-3 h-3 rounded-full ${
+              <div className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${
                 ['toss', 'preMatch', 'live', 'complete'].includes(appState) 
                   ? 'bg-accent' : 'bg-muted'
               }`} />
-              <div className={`w-3 h-3 rounded-full ${
+              <div className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${
                 ['preMatch', 'live', 'complete'].includes(appState) 
                   ? 'bg-accent' : 'bg-muted'
               }`} />
-              <div className={`w-3 h-3 rounded-full ${
+              <div className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${
                 ['live', 'complete'].includes(appState) 
                   ? 'bg-accent' : 'bg-muted'
               }`} />
@@ -309,16 +310,18 @@ export default function ProfessionalCricketApp() {
             <Button
               variant="ghost"
               onClick={resetApp}
-              className="text-muted-foreground"
+              className="text-muted-foreground min-h-[44px] flex items-center space-x-1 text-sm sm:text-base"
             >
-              Start Over
+              <Home className="h-3 w-3" />
+              <span className="hidden sm:inline">Start Over</span>
+              <span className="sm:hidden">🏠</span>
             </Button>
           </div>
         </motion.div>
       )}
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 pb-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-4 sm:pb-6">
         <AnimatePresence mode="wait">
           {appState === 'home' && (
             <motion.div
