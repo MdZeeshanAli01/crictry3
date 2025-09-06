@@ -319,17 +319,17 @@ export default function TeamSetup({ onTeamsReady }: TeamSetupProps) {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8 p-4 sm:p-6 lg:p-0">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center"
       >
-        <h2 className="text-3xl font-bold text-gradient-aurora mb-4">
+        <h2 className="text-2xl sm:text-3xl font-bold text-gradient-aurora mb-3 sm:mb-4">
           Team Setup
         </h2>
         <div className="readable-text inline-block">
-          <p className="text-foreground">
+          <p className="text-foreground text-sm sm:text-base">
             Configure your teams and select playing XI for the cosmic cricket battle
           </p>
         </div>
@@ -397,17 +397,17 @@ export default function TeamSetup({ onTeamsReady }: TeamSetupProps) {
         </div>
 
         {/* Match Configuration */}
-        <div className="space-y-4 max-w-md mx-auto">
+        <div className="space-y-3 sm:space-y-4 max-w-md mx-auto">
           <div className="space-y-2">
-            <Label htmlFor="match-overs" className="text-center block">
+            <Label htmlFor="match-overs" className="text-center block text-sm sm:text-base">
               Match Format (Overs per Innings)
             </Label>
-            <div className="flex items-center space-x-4">
+            <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 sm:space-x-4">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => setMatchOvers(5)}
-                className={matchOvers === 5 ? 'bg-primary/20 border-primary' : ''}
+                className={`min-h-[44px] text-xs sm:text-sm ${matchOvers === 5 ? 'bg-primary/20 border-primary' : ''}`}
               >
                 T5
               </Button>
@@ -415,7 +415,7 @@ export default function TeamSetup({ onTeamsReady }: TeamSetupProps) {
                 variant="outline"
                 size="sm"
                 onClick={() => setMatchOvers(10)}
-                className={matchOvers === 10 ? 'bg-primary/20 border-primary' : ''}
+                className={`min-h-[44px] text-xs sm:text-sm ${matchOvers === 10 ? 'bg-primary/20 border-primary' : ''}`}
               >
                 T10
               </Button>
@@ -423,7 +423,7 @@ export default function TeamSetup({ onTeamsReady }: TeamSetupProps) {
                 variant="outline"
                 size="sm"
                 onClick={() => setMatchOvers(20)}
-                className={matchOvers === 20 ? 'bg-primary/20 border-primary' : ''}
+                className={`min-h-[44px] text-xs sm:text-sm ${matchOvers === 20 ? 'bg-primary/20 border-primary' : ''}`}
               >
                 T20
               </Button>
@@ -431,7 +431,7 @@ export default function TeamSetup({ onTeamsReady }: TeamSetupProps) {
                 variant="outline"
                 size="sm"
                 onClick={() => setMatchOvers(50)}
-                className={matchOvers === 50 ? 'bg-primary/20 border-primary' : ''}
+                className={`min-h-[44px] text-xs sm:text-sm ${matchOvers === 50 ? 'bg-primary/20 border-primary' : ''}`}
               >
                 ODI
               </Button>
@@ -663,16 +663,17 @@ export default function TeamSetup({ onTeamsReady }: TeamSetupProps) {
         </motion.div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
         {/* Team 1 */}
-        <GlassCard className="p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-xl font-semibold text-gradient-primary">Team 1</h3>
-            <div className="flex space-x-2">
+        <GlassCard className="p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3 sm:gap-0">
+            <h3 className="text-lg sm:text-xl font-semibold text-gradient-primary">Team 1</h3>
+            <div className="flex flex-col sm:flex-row gap-2 sm:space-x-2">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => openPlayerBrowser(1)}
+                className="min-h-[44px] text-xs sm:text-sm justify-start sm:justify-center"
               >
                 <Search className="h-4 w-4 mr-2" />
                 Browse Players
@@ -684,6 +685,7 @@ export default function TeamSetup({ onTeamsReady }: TeamSetupProps) {
                   setCurrentTeam(1);
                   setShowPlayerDialog(true);
                 }}
+                className="min-h-[44px] text-xs sm:text-sm justify-start sm:justify-center"
               >
                 <Plus className="h-4 w-4 mr-2" />
                 Add Player
@@ -792,14 +794,15 @@ export default function TeamSetup({ onTeamsReady }: TeamSetupProps) {
         </GlassCard>
 
         {/* Team 2 */}
-        <GlassCard className="p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-xl font-semibold text-gradient-primary">Team 2</h3>
-            <div className="flex space-x-2">
+        <GlassCard className="p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3 sm:gap-0">
+            <h3 className="text-lg sm:text-xl font-semibold text-gradient-primary">Team 2</h3>
+            <div className="flex flex-col sm:flex-row gap-2 sm:space-x-2">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => openPlayerBrowser(2)}
+                className="min-h-[44px] text-xs sm:text-sm justify-start sm:justify-center"
               >
                 <Search className="h-4 w-4 mr-2" />
                 Browse Players
@@ -811,6 +814,7 @@ export default function TeamSetup({ onTeamsReady }: TeamSetupProps) {
                   setCurrentTeam(2);
                   setShowPlayerDialog(true);
                 }}
+                className="min-h-[44px] text-xs sm:text-sm justify-start sm:justify-center"
               >
                 <Plus className="h-4 w-4 mr-2" />
                 Add Player
@@ -938,7 +942,7 @@ export default function TeamSetup({ onTeamsReady }: TeamSetupProps) {
           size="lg"
           onClick={handleProceed}
           disabled={!canProceed()}
-          className="px-12"
+          className="w-full sm:w-auto px-8 sm:px-12 min-h-[52px]"
         >
           <Shield className="h-5 w-5 mr-2" />
           Proceed to Toss
