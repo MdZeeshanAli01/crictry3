@@ -341,12 +341,44 @@ class DatabaseService {
       // Find the first incomplete match
       for (const doc of data.documents) {
         try {
-          const match = JSON.parse(doc.fields.matchData.stringValue);
-          if (!match.isComplete) {
-            return match;
+          // Handle different Firebase document structures
+          let matchData: any;
+          
+          if (doc.fields && doc.fields.matchData && doc.fields.matchData.stringValue) {
+            // Structure: { fields: { matchData: { stringValue: "..." } } }
+            matchData = JSON.parse(doc.fields.matchData.stringValue);
+          } else if (doc.fields) {
+            // Structure: { fields: { field1: { stringValue: "..." }, field2: { ... } } }
+            // Convert Firebase fields to regular object
+            matchData = {} as Record<string, any>;
+            for (const [key, value] of Object.entries(doc.fields)) {
+              if (typeof value === 'object' && value !== null) {
+                if ('stringValue' in value) {
+                  try {
+                    matchData[key] = JSON.parse((value as any).stringValue);
+                  } catch {
+                    matchData[key] = (value as any).stringValue;
+                  }
+                } else if ('integerValue' in value) {
+                  matchData[key] = parseInt((value as any).integerValue);
+                } else if ('booleanValue' in value) {
+                  matchData[key] = (value as any).booleanValue;
+                } else {
+                  matchData[key] = value;
+                }
+              }
+            }
+          } else {
+            // Direct object structure
+            matchData = doc;
+          }
+          
+          if (!matchData.isComplete) {
+            return matchData;
           }
         } catch (error) {
           console.error('Error parsing match data:', error);
+          console.error('Document structure:', JSON.stringify(doc, null, 2));
           continue;
         }
       }
@@ -386,10 +418,42 @@ class DatabaseService {
       const matches: Match[] = data.documents
         .map((doc: any) => {
           try {
-            const match = JSON.parse(doc.fields.matchData.stringValue);
-            return match;
+            // Handle different Firebase document structures
+            let matchData;
+            
+            if (doc.fields && doc.fields.matchData && doc.fields.matchData.stringValue) {
+              // Structure: { fields: { matchData: { stringValue: "..." } } }
+              matchData = JSON.parse(doc.fields.matchData.stringValue);
+            } else if (doc.fields) {
+              // Structure: { fields: { field1: { stringValue: "..." }, field2: { ... } } }
+              // Convert Firebase fields to regular object
+              matchData = {};
+              for (const [key, value] of Object.entries(doc.fields)) {
+                if (typeof value === 'object' && value !== null) {
+                  if ('stringValue' in value) {
+                    try {
+                      matchData[key] = JSON.parse((value as any).stringValue);
+                    } catch {
+                      matchData[key] = (value as any).stringValue;
+                    }
+                  } else if ('integerValue' in value) {
+                    matchData[key] = parseInt((value as any).integerValue);
+                  } else if ('booleanValue' in value) {
+                    matchData[key] = (value as any).booleanValue;
+                  } else {
+                    matchData[key] = value;
+                  }
+                }
+              }
+            } else {
+              // Direct object structure
+              matchData = doc;
+            }
+            
+            return matchData;
           } catch (error) {
             console.error('Error parsing match data:', error);
+            console.error('Document structure:', JSON.stringify(doc, null, 2));
             return null;
           }
         })
@@ -431,10 +495,42 @@ class DatabaseService {
       const matches: Match[] = data.documents
         .map((doc: any) => {
           try {
-            const match = JSON.parse(doc.fields.matchData.stringValue);
-            return match;
+            // Handle different Firebase document structures
+            let matchData;
+            
+            if (doc.fields && doc.fields.matchData && doc.fields.matchData.stringValue) {
+              // Structure: { fields: { matchData: { stringValue: "..." } } }
+              matchData = JSON.parse(doc.fields.matchData.stringValue);
+            } else if (doc.fields) {
+              // Structure: { fields: { field1: { stringValue: "..." }, field2: { ... } } }
+              // Convert Firebase fields to regular object
+              matchData = {};
+              for (const [key, value] of Object.entries(doc.fields)) {
+                if (typeof value === 'object' && value !== null) {
+                  if ('stringValue' in value) {
+                    try {
+                      matchData[key] = JSON.parse((value as any).stringValue);
+                    } catch {
+                      matchData[key] = (value as any).stringValue;
+                    }
+                  } else if ('integerValue' in value) {
+                    matchData[key] = parseInt((value as any).integerValue);
+                  } else if ('booleanValue' in value) {
+                    matchData[key] = (value as any).booleanValue;
+                  } else {
+                    matchData[key] = value;
+                  }
+                }
+              }
+            } else {
+              // Direct object structure
+              matchData = doc;
+            }
+            
+            return matchData;
           } catch (error) {
             console.error('Error parsing match data:', error);
+            console.error('Document structure:', JSON.stringify(doc, null, 2));
             return null;
           }
         })

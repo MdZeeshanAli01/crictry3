@@ -145,11 +145,6 @@ const ProfessionalScoringInterfaceV3: React.FC<ProfessionalScoringInterfaceProps
   };
 
   // Helper functions for match analysis
-  const isPowerPlayActive = (innings: Innings): boolean => {
-    if (!innings.powerPlayOvers) return false;
-    const currentOver = innings.overs;
-    return innings.powerPlayOvers.includes(currentOver);
-  };
 
   // const getMatchPhase = (innings: Innings): 'powerplay' | 'middle' | 'death' => {
   //   const totalOvers = matchData.totalOvers;

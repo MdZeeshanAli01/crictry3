@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import GlassCard from './GlassCard';
 import TeamSetup from './TeamSetup';
 import TossSetup from './TossSetup';
-import ProfessionalScoringInterfaceV3 from './ProfessionalScoringInterfaceV3';
+import ProfessionalScoringInterfaceV4 from './ProfessionalScoringInterfaceV4';
 import { Match, Team, Innings } from '@/types/cricket';
 import { ArrowLeft, Play, Users, Coins, Target } from 'lucide-react';
 import { getDatabaseService } from '@/services/databaseService';
@@ -384,9 +384,8 @@ export default function ProfessionalCricketApp() {
               exit={{ opacity: 0, scale: 1.05 }}
               transition={{ duration: 0.5 }}
             >
-              <ProfessionalScoringInterfaceV3 
-                matchData={currentMatch} 
-                setMatchData={setCurrentMatch}
+              <ProfessionalScoringInterfaceV4
+                matchData={currentMatch}
                 onScoreUpdate={handleMatchUpdate}
                 onNavigateHome={() => {
                   setCurrentMatch(null);
