@@ -115,30 +115,9 @@ export const useMatchScoring = (
 
   // Update score function
   const updateScore = useCallback((runs: number, isExtra = false, extraType?: ExtraType): boolean => {
-    console.log('🎯 HOOK: updateScore called with:', { runs, isExtra, extraType });
-    console.log('🎯 HOOK: Current match state:', {
-      isComplete: matchData.isComplete,
-      isLive: matchData.isLive,
-      currentInnings: matchData.currentInnings,
-      innings: {
-        first: matchData.innings.first ? {
-          striker: matchData.innings.first.currentBatsmen?.striker,
-          nonStriker: matchData.innings.first.currentBatsmen?.nonStriker,
-          bowler: matchData.innings.first.currentBowler
-        } : null,
-        second: matchData.innings.second ? {
-          striker: matchData.innings.second.currentBatsmen?.striker,
-          nonStriker: matchData.innings.second.currentBatsmen?.nonStriker,
-          bowler: matchData.innings.second.currentBowler
-        } : null
-      }
-    });
-    
     // Validate the action
     const validation = validateScoringAction(runs, isExtra, extraType);
-    console.log('🎯 HOOK: Validation result:', validation);
     if (!validation.isValid) {
-      console.error('🎯 HOOK: Validation failed:', validation.errors);
       cricketFeedback.validation(validation);
       return false;
     }
