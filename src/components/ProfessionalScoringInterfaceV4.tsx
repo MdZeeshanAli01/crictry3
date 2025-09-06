@@ -264,49 +264,49 @@ const ProfessionalScoringInterfaceV4: React.FC<ProfessionalScoringInterfaceProps
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-2 sm:p-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-4">
+        <div className="flex items-center justify-between mb-4 sm:mb-6">
+          <div className="flex items-center gap-2 sm:gap-4">
             {onNavigateHome && (
               <Button
                 onClick={onNavigateHome}
-                className="p-2 bg-slate-600/20 hover:bg-slate-600/30"
+                className="p-2 bg-slate-600/20 hover:bg-slate-600/30 min-h-[44px]"
               >
                 <ArrowLeft className="h-5 w-5" />
               </Button>
             )}
-            <h1 className="text-2xl font-bold text-gradient-aurora">
+            <h1 className="text-lg sm:text-2xl font-bold text-gradient-aurora">
               Live Cricket Scoring
             </h1>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             {lastAction && (
               <Button
                 onClick={handleUndo}
-                className="flex items-center gap-2 bg-orange-600/20 hover:bg-orange-600/30 text-orange-400"
+                className="flex items-center gap-1 sm:gap-2 bg-orange-600/20 hover:bg-orange-600/30 text-orange-400 px-3 py-2 min-h-[44px] text-sm"
               >
                 <RotateCcw className="h-4 w-4" />
-                Undo
+                <span className="hidden sm:inline">Undo</span>
               </Button>
             )}
             
             <Button
               onClick={() => setShowEndMatchModal(true)}
-              className="flex items-center gap-2 bg-red-600/20 hover:bg-red-600/30 text-red-400"
+              className="flex items-center gap-1 sm:gap-2 bg-red-600/20 hover:bg-red-600/30 text-red-400 px-3 py-2 min-h-[44px] text-sm"
             >
               <Trophy className="h-4 w-4" />
-              End Match
+              <span className="hidden sm:inline">End Match</span>
             </Button>
           </div>
         </div>
 
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column - Scoreboard */}
-          <div className="lg:col-span-2 space-y-6">
+        {/* Main Content Grid - Mobile First Design */}
+        <div className="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-6">
+          {/* Mobile: Scoring First, Desktop: Left Column - Scoreboard */}
+          <div className="order-2 lg:order-1 lg:col-span-2 space-y-4 sm:space-y-6">
             <Scoreboard
               match={matchData}
               currentInnings={currentInnings}
@@ -316,25 +316,25 @@ const ProfessionalScoringInterfaceV4: React.FC<ProfessionalScoringInterfaceProps
               currentBowler={currentBowler}
             />
 
-            {/* Quick Actions */}
-            <div className="flex gap-4">
+            {/* Quick Actions - Mobile Optimized */}
+            <div className="flex gap-2 sm:gap-4">
               <Button
                 onClick={rotateStrike}
-                className="flex-1 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400"
+                className="flex-1 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 min-h-[44px] text-sm"
               >
-                🔄 Rotate Strike
+                <span className="hidden sm:inline">🔄 </span>Rotate Strike
               </Button>
               <Button
                 onClick={() => setShowScorecard(true)}
-                className="flex-1 bg-purple-600/20 hover:bg-purple-600/30 text-purple-400"
+                className="flex-1 bg-purple-600/20 hover:bg-purple-600/30 text-purple-400 min-h-[44px] text-sm"
               >
-                📊 Scorecard
+                <span className="hidden sm:inline">📊 </span>Scorecard
               </Button>
             </div>
           </div>
 
-          {/* Right Column - Scoring & Statistics */}
-          <div className="space-y-6">
+          {/* Mobile: First Priority, Desktop: Right Column - Scoring & Statistics */}
+          <div className="order-1 lg:order-2 space-y-4 sm:space-y-6">
             <QuickScoring
               onScore={handleScoreUpdate}
               onWicket={handleWicketClick}
@@ -343,13 +343,16 @@ const ProfessionalScoringInterfaceV4: React.FC<ProfessionalScoringInterfaceProps
               disabled={isMatchComplete}
             />
 
-            <MatchStatistics
-              match={matchData}
-              currentInnings={currentInnings}
-              battingTeam={battingTeam}
-              bowlingTeam={bowlingTeam}
-              onShowScorecard={() => setShowScorecard(true)}
-            />
+            {/* Statistics - Hidden on mobile by default, can be toggled */}
+            <div className="hidden sm:block">
+              <MatchStatistics
+                match={matchData}
+                currentInnings={currentInnings}
+                battingTeam={battingTeam}
+                bowlingTeam={bowlingTeam}
+                onShowScorecard={() => setShowScorecard(true)}
+              />
+            </div>
           </div>
         </div>
 

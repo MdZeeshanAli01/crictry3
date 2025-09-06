@@ -61,18 +61,18 @@ const QuickScoring: React.FC<QuickScoringProps> = ({
       )}
 
       {/* Run Scoring Buttons */}
-      <GlassCard className="p-4">
-        <h3 className="text-lg font-semibold mb-4 text-gradient-primary text-center">
+      <GlassCard className="p-3 sm:p-4">
+        <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gradient-primary text-center">
           Quick Scoring
         </h3>
         
-        <div className="grid grid-cols-3 gap-3 mb-4">
+        <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-3 sm:mb-4">
           {runButtons.map((runs) => (
             <Button
               key={runs}
               onClick={() => onScore(runs)}
               disabled={disabled}
-              className={`h-12 text-lg font-bold ${getRunButtonStyle(runs)} disabled:opacity-50`}
+              className={`min-h-[48px] h-12 sm:h-14 text-lg sm:text-xl font-bold ${getRunButtonStyle(runs)} disabled:opacity-50 active:scale-95 transition-transform`}
               aria-label={`Score ${runs} run${runs !== 1 ? 's' : ''}`}
             >
               {runs}
@@ -84,7 +84,7 @@ const QuickScoring: React.FC<QuickScoringProps> = ({
         <Button
           onClick={onWicket}
           disabled={disabled}
-          className="w-full h-12 text-lg font-bold bg-red-600/20 hover:bg-red-600/30 text-red-400 disabled:opacity-50 mb-4"
+          className="w-full min-h-[48px] h-12 sm:h-14 text-lg sm:text-xl font-bold bg-red-600/20 hover:bg-red-600/30 text-red-400 disabled:opacity-50 mb-3 sm:mb-4 active:scale-95 transition-transform"
           aria-label="Record a wicket"
         >
           OUT
@@ -92,18 +92,18 @@ const QuickScoring: React.FC<QuickScoringProps> = ({
       </GlassCard>
 
       {/* Extras Buttons */}
-      <GlassCard className="p-4">
-        <h3 className="text-lg font-semibold mb-4 text-gradient-primary text-center">
+      <GlassCard className="p-3 sm:p-4">
+        <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gradient-primary text-center">
           Extras
         </h3>
         
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-2 sm:gap-3">
           {extraButtons.map(({ type, label, color }) => (
             <Button
               key={type}
               onClick={() => onExtra(type)}
               disabled={disabled}
-              className={`h-10 text-sm font-semibold ${getExtraButtonStyle(color)} disabled:opacity-50`}
+              className={`min-h-[44px] h-10 sm:h-12 text-xs sm:text-sm font-semibold ${getExtraButtonStyle(color)} disabled:opacity-50 active:scale-95 transition-transform`}
               aria-label={`Record ${label.toLowerCase()}`}
             >
               {label}
@@ -112,11 +112,11 @@ const QuickScoring: React.FC<QuickScoringProps> = ({
         </div>
 
         {/* Additional Extras Row */}
-        <div className="grid grid-cols-2 gap-3 mt-3">
+        <div className="grid grid-cols-2 gap-2 sm:gap-3 mt-2 sm:mt-3">
           <Button
             onClick={() => onExtra('noball-bye')}
             disabled={disabled}
-            className="h-10 text-sm font-semibold bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-400 disabled:opacity-50"
+            className="min-h-[44px] h-10 sm:h-12 text-xs sm:text-sm font-semibold bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-400 disabled:opacity-50 active:scale-95 transition-transform"
             aria-label="Record no ball with byes"
           >
             NB + Bye
@@ -124,7 +124,7 @@ const QuickScoring: React.FC<QuickScoringProps> = ({
           <Button
             onClick={() => onExtra('noball-legbye')}
             disabled={disabled}
-            className="h-10 text-sm font-semibold bg-pink-600/20 hover:bg-pink-600/30 text-pink-400 disabled:opacity-50"
+            className="min-h-[44px] h-10 sm:h-12 text-xs sm:text-sm font-semibold bg-pink-600/20 hover:bg-pink-600/30 text-pink-400 disabled:opacity-50 active:scale-95 transition-transform"
             aria-label="Record no ball with leg byes"
           >
             NB + LB
@@ -132,8 +132,8 @@ const QuickScoring: React.FC<QuickScoringProps> = ({
         </div>
       </GlassCard>
 
-      {/* Keyboard Shortcuts Info */}
-      <div className="text-xs text-slate-400 text-center space-y-1">
+      {/* Keyboard Shortcuts Info - Hidden on mobile */}
+      <div className="hidden sm:block text-xs text-slate-400 text-center space-y-1">
         <p>💡 Keyboard shortcuts:</p>
         <p>0-6: Score runs • W: Wicket • Space: Dot ball</p>
       </div>
